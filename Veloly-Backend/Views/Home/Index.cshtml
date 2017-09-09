@@ -1,6 +1,10 @@
-﻿<p>Hello World</p>
 @Html.ActionLink("Login","Login","Account",new {email = "werrenjan99@gmail.com", password = "Voyager88!"},null)
-@Html.ActionLink("Login", "Register", "Account", new { email = "werrenjan99@gmail.com", password = "Voyager88!" }, null)
 @Html.ActionLink("Create Bike", "Create", "Bike", new { userId = "ab2dcda9-a575-45d8-bf35-741f4d3ceaac", description = "Eine Beschreibung", price = 2.5m, photoUrl = "URL", lockId = "lockId12", startTime = DateTime.Now, endTime = DateTime.Now.AddHours(3)}, null)
 @Html.ActionLink("Delete Bike", "Delete", "Bike", new { id = 2}, null)
 @Html.ActionLink("Update Bike", "Update", "Bike", new {bikeId =  1, userId = "ab2dcda9-a575-45d8-bf35-741f4d3ceaac", photoUrl = "HTMLURL", price = 99.5m, description = "dini mère"}, null)
+@{ 
+    var db = new Veloly_Backend.Models.ApplicationDbContext();
+}
+@Html.ActionLink("Login","Register","Account",new {email = "jasfakasjdn@werren.com", password = "Voyager88!"},null)
+@Html.ActionLink("Create", "Create", "Reservation", new { /*userId = db.Users.ToList().ElementAt(0).Id,bikeId = db.Bikes.ToList().ElementAt(0).Id,*/ startTime = DateTime.Now, endTime = DateTime.Now, date = DateTime.Now},null)
+@Html.ActionLink("Register","Register","Account",new {email = "test@gmail.com", password = "Test88!"},null)
