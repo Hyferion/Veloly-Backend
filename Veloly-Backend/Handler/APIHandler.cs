@@ -29,7 +29,10 @@ namespace Veloly_Backend.Handler
         public void LockGetAll()
         {
             _action = "/lock/get/all/";
-            _values = new JavaScriptSerializer().Serialize(new{});
+            _values = new JavaScriptSerializer().Serialize(new
+            {
+                
+            });
         }
 
         public async Task<string> RequestPostAsync()

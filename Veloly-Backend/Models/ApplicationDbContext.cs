@@ -10,6 +10,8 @@ namespace Veloly_Backend.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public virtual DbSet<Bike> Bikes { get; set; }
+        public virtual DbSet<Reservation> Reservations { get; set; }
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
