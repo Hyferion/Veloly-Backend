@@ -10,7 +10,7 @@ namespace Veloly_Backend.Models
         public int Id { get; set; }
         public virtual ApplicationUser User { get; set; }
         public virtual Bike Bike { get; set; }
-        public DateTime StarTime { get; set; }
+        public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public DateTime Date { get; set; }
     }
