@@ -25,7 +25,7 @@ namespace Veloly_Backend.Controllers
         {
             var model = new Bike()
             {
-                User = db.Users.FirstOrDefault(x => x.Id == userId),
+                UserId = userId,
                 Description = description,
                 Price = (decimal)price,
                 PhotoUrl = photoUrl,
@@ -44,20 +44,21 @@ namespace Veloly_Backend.Controllers
             int bikeId,
             string userId,
             string photoUrl,
-            decimal price,
+            decimal? price,
             string lockId,
-            DateTime startTime,
-            DateTime endTime,
+            DateTime? startTime,
+            DateTime? endTime,
             string description)
         {
+            //var tmodel = db.Bikes.FirstOrDefault(t => t.Id == bikeId);
             var model = db.Bikes.FirstOrDefault(x => x.Id == bikeId);
-            model.User = userId == null ? model.User : db.Users.FirstOrDefault(x => x.Id == userId);
+            model.UserId = userId == null ? model.UserId : userId;
             model.PhotoUrl = photoUrl == null ? model.PhotoUrl : photoUrl;
-            model.Price = price == null ? model.Price : price;
+            model.Price = price == null ? model.Price : (decimal)price;
             model.LockId = lockId == null ? model.LockId : lockId;
             model.Description = description == null ? model.Description : description;
-            model.StarTime = startTime == null ? model.StarTime : startTime;
-            model.EndTime = endTime == null ? model.EndTime : endTime;
+            model.StarTime = startTime == null ? model.StarTime : (DateTime)startTime;
+            model.EndTime = endTime == null ? model.EndTime : (DateTime)endTime;
 
             db.SaveChanges();
 
@@ -71,7 +72,7 @@ namespace Veloly_Backend.Controllers
             var bike = db.Bikes.FirstOrDefault(x => x.Id == id);
             db.Bikes.Remove(bike);
             db.SaveChanges();
-            return View();
+            return View("Json", new Json());
         }
     }
 }
