@@ -17,15 +17,15 @@ namespace Veloly_Backend.Controllers
             return View();
         }
 
-        public async Task<ActionResult> Login()
+        public async Task<ActionResult> Login(string username, string password)
         {
             var handler = new APIHandler
             {
                 Action = "company/login/",
                 Values = new JavaScriptSerializer().Serialize(new
                 {
-                    username = "jan@werren.com",
-                    password = "Voyager88",
+                    username = username,
+                    password = password,
                     companyDomain = "veloly"
                 })
             };

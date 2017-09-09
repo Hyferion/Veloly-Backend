@@ -46,19 +46,19 @@ namespace Veloly_Backend.Controllers
             return View("Json", json);
         }
 
-        /*public async Task<ActionResult> Setup(string mac = "C8:25:0E:3C:76:60", string session = "vcMwOz99oYeFtMuX9W9eP3pMFTwfmWxtnPx5Pdph")
+        public async Task<ActionResult> Unlock(string mac = "C8:25:0E:3C:76:60",string session = " ")
         {
             var handler = new APIHandler
             {
-                Action = "/lock/setup/",
+                Action = "lock/unlock/",
                 Values = new JavaScriptSerializer().Serialize(new
                 {
                     mac = mac,
-                    session = session
+                    session = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
                 })
             };
             var json = new Json { JsonString = await handler.RequestPostAsync() };
-            return View("Json", json);*/
+            return View("Json", json);
         }
     }
 }

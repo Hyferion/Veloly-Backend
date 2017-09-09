@@ -5,10 +5,12 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Newtonsoft.Json;
+using Veloly_Backend.Handler;
 using Veloly_Backend.JsonModels;
 using Veloly_Backend.Models;
 
@@ -53,7 +55,7 @@ namespace Veloly_Backend.Controllers
             }
         }
 
-        public async Task<ActionResult> Login(string email = "",string password = "")
+        public async Task<ActionResult> Login(string email,string password)
         {
             var result = await SignInManager.PasswordSignInAsync(email, password, false, shouldLockout: false);
             var userJson = new UserJson ();
@@ -75,6 +77,16 @@ namespace Veloly_Backend.Controllers
             var result = await UserManager.CreateAsync(user, password);
             if (result.Succeeded)
             {
+                var handler = new APIHandler
+                {
+                    Action = "user/create/",
+                    Values = new JavaScriptSerializer().Serialize(new
+                    {
+                        username = email,
+                    })
+                };
+                var json = new Json { JsonString = await handler.RequestPostAsync() };
+                return View("Json",json);
                 userJson = new UserJson { UserId = user.Id , Email = email};
             }
             return View(userJson);
