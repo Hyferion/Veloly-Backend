@@ -20,9 +20,7 @@ namespace Veloly_Backend.Models
             {
                 Price = 10,
                 LockId = "4209",
-                Description = "It's an awesome Bike",
-                StarTime = DateTime.Now,
-                EndTime = DateTime.Now
+                Description = "It's an awesome Bike"
             };
             context.Bikes.Add(bike1);
             context.SaveChanges();
@@ -35,7 +33,7 @@ namespace Veloly_Backend.Models
                     name = "Group" + bike1.Id,
                     lockIds = new List<string> { "4211" },
                     userIds = new List<string> { "5804" },
-                    groupType = "online"
+                    groupType = "offline"
                 })
             };
             var json = new Json { JsonString = Task.Run(async () => { return await handler.RequestPostAsync(); }).Result};
@@ -43,9 +41,7 @@ namespace Veloly_Backend.Models
             {
                 Price = 10,
                 LockId = "4211",
-                Description = "It's an awesome Bike",
-                StarTime = DateTime.Now,
-                EndTime = DateTime.Now
+                Description = "It's an awesome Bike"
             };
             context.Bikes.Add(bike2);
             context.SaveChanges();
@@ -58,7 +54,7 @@ namespace Veloly_Backend.Models
                     name = "Group" + bike2.Id,
                     lockIds = new List<string> { "4210" },
                     userIds = new List<string> { "5804" },
-                    groupType = "online"
+                    groupType = "offline"
                 })
             };
             json = new Json { JsonString = Task.Run(async () => { return await handler.RequestPostAsync(); }).Result };
@@ -66,9 +62,7 @@ namespace Veloly_Backend.Models
             {
                 Price = 10,
                 LockId = "4209",
-                Description = "It's an awesome Bike",
-                StarTime = DateTime.Now,
-                EndTime = DateTime.Now
+                Description = "It's an awesome Bike"
             };
             context.Bikes.Add(bike3);
             context.SaveChanges();
@@ -81,7 +75,7 @@ namespace Veloly_Backend.Models
                     name = "Group" + bike3.Id,
                     lockIds = new List<string> { "4209" },
                     userIds = new List<string> { "5804" },
-                    groupType = "online"
+                    groupType = "offline"
                 })
             };
             json = new Json { JsonString = Task.Run(async () => { return await handler.RequestPostAsync(); }).Result };

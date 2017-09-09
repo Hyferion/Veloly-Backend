@@ -16,6 +16,5 @@ namespace Veloly_Backend.Models
         public decimal Price { get; set; }
         public ICollection<Reservation> Reservations { get; set; }
         public List<Tuple<DateTime, DateTime>> FreeTime{ get; set; }
-        public DateTime TimeStamp { get; set; } 
     }
 }
