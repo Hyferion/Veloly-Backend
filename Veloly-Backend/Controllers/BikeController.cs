@@ -31,7 +31,6 @@ namespace Veloly_Backend.Controllers
                 PhotoUrl = photoUrl,
                 LockId = lockId,
                 FreeTime = new List<Tuple<DateTime, DateTime>> { new Tuple<DateTime, DateTime>((DateTime)startTime, (DateTime)endTime) },
-                TimeStamp = DateTime.Now
             };
             db.Bikes.Add(model);
             db.SaveChanges();
