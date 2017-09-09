@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
@@ -10,6 +11,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Veloly_Backend.Handler;
 using Veloly_Backend.JsonModels;
 using Veloly_Backend.Models;
@@ -25,7 +27,7 @@ namespace Veloly_Backend.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -37,9 +39,9 @@ namespace Veloly_Backend.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -55,17 +57,29 @@ namespace Veloly_Backend.Controllers
             }
         }
 
-        public async Task<ActionResult> Login(string email,string password)
+        public async Task<ActionResult> Login(string email, string password)
         {
             var result = await SignInManager.PasswordSignInAsync(email, password, false, shouldLockout: false);
-            var userJson = new UserJson ();
+            var userJson = new UserJson();
             if (result == SignInStatus.Success)
             {
-                userJson = new UserJson {UserId = (await UserManager.FindByEmailAsync(email)).Id, Email = email};
+                var handler = new APIHandler
+                {
+                    Action = "company/login/",
+                    Values = new JavaScriptSerializer().Serialize(new
+                    {
+                        username = email,
+                        password = password,
+                        companyDomain = "veloly"
+                    })
+                };
+                var jObject = JObject.Parse(await handler.RequestPostAsync());
+                var nokeId = jObject["user"]["id"];
+                userJson = new UserJson { UserId = (await UserManager.FindByEmailAsync(email)).Id, Email = email, NokeId = nokeId.Value<string>()};
             }
             return View(userJson);
         }
-        
+
         public async Task<ActionResult> Register(string email, string password)
         {
             var userJson = new UserJson();
@@ -73,7 +87,7 @@ namespace Veloly_Backend.Controllers
             {
                 return View(userJson);
             }
-            var user = new ApplicationUser { UserName = email, Email = email};
+            var user = new ApplicationUser { UserName = email, Email = email };
             var result = await UserManager.CreateAsync(user, password);
             if (result.Succeeded)
             {
@@ -83,11 +97,12 @@ namespace Veloly_Backend.Controllers
                     Values = new JavaScriptSerializer().Serialize(new
                     {
                         username = email,
+                        name = email,
+                        permissions = new List<string> { "appFlag"}
                     })
                 };
                 var json = new Json { JsonString = await handler.RequestPostAsync() };
-                return View("Json",json);
-                userJson = new UserJson { UserId = user.Id , Email = email};
+                userJson = new UserJson { UserId = user.Id, Email = email };
             }
             return View(userJson);
         }

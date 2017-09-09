@@ -9,5 +9,6 @@ namespace Veloly_Backend.JsonModels
     {
         public string UserId { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
+        public string NokeId { get; set; } = string.Empty;
     }
 }

@@ -13,14 +13,5 @@ namespace Veloly_Backend.Controllers
     {
         public ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Bikes
-        public ActionResult Create()
-        {
-            var model = new Bike()
-            {
-                
-            }
-        }
-
     }
 }
