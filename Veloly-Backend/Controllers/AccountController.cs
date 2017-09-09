@@ -18,7 +18,7 @@ using Veloly_Backend.JsonModels;
 using Veloly_Backend.Models;
 
 namespace Veloly_Backend.Controllers
-{
+{   
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;

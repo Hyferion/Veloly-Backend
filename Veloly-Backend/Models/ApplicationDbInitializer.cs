@@ -16,17 +16,8 @@ namespace Veloly_Backend.Models
     {
         protected override void Seed(ApplicationDbContext context)
         {
-            var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            var me = new ApplicationUser
-            {
-                UserName = "jan@werren.com",
-                Email = "jan@werren.com",
-            };
-            userManager.Create(me, "Voyager88!");
-            context.SaveChanges();
             var bike1 = new Bike
             {
-                User = me,
                 Price = 10,
                 LockId = "4209",
                 Description = "It's an awesome Bike",
@@ -35,6 +26,7 @@ namespace Veloly_Backend.Models
             };
             context.Bikes.Add(bike1);
             context.SaveChanges();
+            bike1.GroupId = "Group" + bike1.Id;
             var handler = new APIHandler
             {
                 Action = "group/create/",
@@ -49,7 +41,6 @@ namespace Veloly_Backend.Models
             var json = new Json { JsonString = Task.Run(async () => { return await handler.RequestPostAsync(); }).Result};
             var bike2 = new Bike
             {
-                User = me,
                 Price = 10,
                 LockId = "4211",
                 Description = "It's an awesome Bike",
@@ -58,6 +49,7 @@ namespace Veloly_Backend.Models
             };
             context.Bikes.Add(bike2);
             context.SaveChanges();
+            bike1.GroupId = "Group" + bike2.Id;
             handler = new APIHandler
             {
                 Action = "group/create/",
@@ -72,7 +64,6 @@ namespace Veloly_Backend.Models
             json = new Json { JsonString = Task.Run(async () => { return await handler.RequestPostAsync(); }).Result };
             var bike3 = new Bike
             {
-                User = me,
                 Price = 10,
                 LockId = "4209",
                 Description = "It's an awesome Bike",
@@ -81,6 +72,7 @@ namespace Veloly_Backend.Models
             };
             context.Bikes.Add(bike3);
             context.SaveChanges();
+            bike1.GroupId = "Group" + bike3.Id;
             handler = new APIHandler
             {
                 Action = "group/create/",
