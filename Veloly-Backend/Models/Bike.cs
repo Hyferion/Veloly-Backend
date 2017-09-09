@@ -16,5 +16,6 @@ namespace Veloly_Backend.Models
         public DateTime StarTime { get; set; }
         public DateTime EndTime { get; set; }
         public ICollection<Reservation> Reservations { get; set; }
+        public DateTime TimeStamp { get; set; } 
     }
 }

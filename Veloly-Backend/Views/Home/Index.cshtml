@@ -1,3 +1,4 @@
 ﻿<p>Hello World</p>
 @Html.ActionLink("Login","Login","Account",new {email = "werrenjan99@gmail.com", password = "Voyager88!"},null)
 @Html.ActionLink("Login", "Register", "Account", new { email = "werrenjan99@gmail.com", password = "Voyager88!" }, null)
+@Html.ActionLink("Create Bike", "Create", "Bike", new { userId = new Guid(), description = "Eine Beschreibung", price = 2.5m, photoUrl = "URL", lockId = "lockId12", startTime = DateTime.Now, endDate = DateTime.Now}, null)
