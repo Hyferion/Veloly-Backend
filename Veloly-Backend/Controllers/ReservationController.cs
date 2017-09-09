@@ -22,7 +22,8 @@ namespace Veloly_Backend.Controllers
                 StartTime = startTime,
                 EndTime = endTime,
             };
-            model.Bike.FreeTime.Add(new Tuple<DateTime, DateTime>(startTime, endTime));
+            model.Bike.FreeTime.Add(new Tuple<DateTime, int>(startTime, -1));
+            model.Bike.FreeTime.Add(new Tuple<DateTime, int>(endTime, 1));
             Db.Reservations.Add(model);
             Db.SaveChanges();
             var json = new Json { JsonString = new JavaScriptSerializer().Serialize(model) };
@@ -32,11 +33,15 @@ namespace Veloly_Backend.Controllers
         {
             var model = Db.Reservations.FirstOrDefault(x =>  x.Id == reservationId);
             var bike = Db.Bikes.FirstOrDefault(x => x.Id == model.Bike.Id);
-            //bike.FreeTime.Remove()
+            bike.FreeTime.Remove(new Tuple<DateTime, int>(model.StartTime, -1));
+            bike.FreeTime.Remove(new Tuple<DateTime, int>(model.EndTime, 1));
             model.User = userId == null ? model.User : Db.Users.FirstOrDefault(x => x.Id == userId);
             model.Bike = bikeId == null ? model.Bike :  Db.Bikes.FirstOrDefault(x => x.Id == bikeId);
             model.StartTime = startTime == null ? model.StartTime : (DateTime)startTime;
             model.EndTime = endTime == null ? model.EndTime : (DateTime)endTime;
+            bike = Db.Bikes.FirstOrDefault(x => x.Id == model.Bike.Id);
+            bike.FreeTime.Add(new Tuple<DateTime, int>(model.StartTime, -1));
+            bike.FreeTime.Add(new Tuple<DateTime, int>(model.EndTime, 1));
             Db.SaveChanges();
             var json = new Json { JsonString = new JavaScriptSerializer().Serialize(model) };
             return View("Json", json);
@@ -44,15 +49,19 @@ namespace Veloly_Backend.Controllers
         public ActionResult Remove(int reservationId)
         {
             var model = Db.Reservations.FirstOrDefault(x => x.Id == reservationId);
+            var bike = Db.Bikes.FirstOrDefault(x => x.Id == model.Bike.Id);
+            bike.FreeTime.Remove(new Tuple<DateTime, int>(model.StartTime, -1));
+            bike.FreeTime.Remove(new Tuple<DateTime, int>(model.EndTime, 1));
             Db.Reservations.Remove(model);
             Db.SaveChanges();
             return View("Json", new Reservation { });
         }
         public ActionResult Schedule(int bikeId)
         {
-            var model = Db.Bikes.FirstOrDefault(x => x.Id == bikeId);
-            model.FreeTime.Sort();
-            var json = new Json { JsonString = new JavaScriptSerializer().Serialize(model.FreeTime) };
+            List<Tuple<DateTime, int>> model = Db.Bikes.FirstOrDefault(x => x.Id == bikeId).FreeTime;
+            model.Add(new Tuple<DateTime, int>(Db.Bikes.FirstOrDefault(x => x.Id == bikeId).StartTime, 1));
+            model.Add(new Tuple<DateTime, int>(Db.Bikes.FirstOrDefault(x => x.Id == bikeId).EndTime, -1));
+            var json = new Json { JsonString = new JavaScriptSerializer().Serialize(model) };
             return View("Json", json);
         }
     }
