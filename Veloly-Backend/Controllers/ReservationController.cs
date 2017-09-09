@@ -22,6 +22,7 @@ namespace Veloly_Backend.Controllers
                 StartTime = startTime,
                 EndTime = endTime,
             };
+            model.Bike.FreeTime.Add(new Tuple<DateTime, DateTime>(startTime, endTime));
             Db.Reservations.Add(model);
             Db.SaveChanges();
             var json = new Json { JsonString = new JavaScriptSerializer().Serialize(model) };
@@ -44,6 +45,12 @@ namespace Veloly_Backend.Controllers
             Db.Reservations.Remove(model);
             Db.SaveChanges();
             return View("Json", new Reservation { });
+        }
+        public ActionResult Schedule(int bikeId)
+        {
+            var model = Db.Bikes.FirstOrDefault(x => x.Id == bikeId);
+            var json = new Json { JsonString = new JavaScriptSerializer().Serialize(model.FreeTime) };
+            return View("Json", json);
         }
     }
 }
