@@ -1,3 +1,6 @@
 ﻿<p>Hello World</p>
-@Html.ActionLink("Login","Login","Account",new {email = "werrenjan99@gmail.com", password = "Voyager88!"},null)
-@Html.ActionLink("Login", "Register", "Account", new { email = "werrenjan99@gmail.com", password = "Voyager88!" }, null)
+@{ 
+    var db = new Veloly_Backend.Models.ApplicationDbContext();
+}
+@Html.ActionLink("Login","Register","Account",new {email = "jasfakasjdn@werren.com", password = "Voyager88!"},null)
+@Html.ActionLink("Create", "Create", "Reservation", new { /*userId = db.Users.ToList().ElementAt(0).Id,bikeId = db.Bikes.ToList().ElementAt(0).Id,*/ startTime = DateTime.Now, endTime = DateTime.Now, date = DateTime.Now},null)
