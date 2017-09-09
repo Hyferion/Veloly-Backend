@@ -218,12 +218,14 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BikeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LockController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Handler\APIHandler.cs" />
+    <Compile Include="JsonModels\BikeJson.cs" />
     <Compile Include="JsonModels\Json.cs" />
     <Compile Include="JsonModels\UserJson.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
