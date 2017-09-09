@@ -21,7 +21,6 @@ namespace Veloly_Backend.Controllers
                 Bike = bikeId == null ? null : Db.Bikes.FirstOrDefault(x => x.Id == bikeId),
                 StartTime = startTime,
                 EndTime = endTime,
-                Date = date
             };
             Db.Reservations.Add(model);
             Db.SaveChanges();
@@ -35,7 +34,6 @@ namespace Veloly_Backend.Controllers
             model.Bike = bikeId == null ? model.Bike :  Db.Bikes.FirstOrDefault(x => x.Id == bikeId);
             model.StartTime = startTime == null ? model.StartTime : (DateTime)startTime;
             model.EndTime = endTime == null ? model.EndTime : (DateTime)endTime;
-            model.Date = date == null ? model.Date : (DateTime)date;
             Db.SaveChanges();
             var json = new Json { JsonString = new JavaScriptSerializer().Serialize(model) };
             return View("Json", json);
