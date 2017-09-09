@@ -8,6 +8,8 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using Newtonsoft.Json;
+using Veloly_Backend.JsonModels;
 using Veloly_Backend.Models;
 
 namespace Veloly_Backend.Controllers
@@ -51,31 +53,31 @@ namespace Veloly_Backend.Controllers
             }
         }
 
-        // POST: /Account/Login
-        [HttpPost]
-        public async Task<ActionResult> Login(string email,string password)
+        public async Task<ActionResult> Login(string email = "",string password = "")
         {
             var result = await SignInManager.PasswordSignInAsync(email, password, false, shouldLockout: false);
-            switch (result)
+            var userJson = new UserJson ();
+            if (result == SignInStatus.Success)
             {
-                case SignInStatus.Success:
-                    return View();
-                default:
-                    return View();
+                userJson = new UserJson {UserId = (await UserManager.FindByEmailAsync(email)).Id, Email = email};
             }
+            return View(userJson);
         }
-
-        // POST: /Account/Register
-        [HttpPost]
+        
         public async Task<ActionResult> Register(string email, string password)
         {
+            var userJson = new UserJson();
+            if (await UserManager.FindByEmailAsync(email) != null)
+            {
+                return View(userJson);
+            }
             var user = new ApplicationUser { UserName = email, Email = email};
             var result = await UserManager.CreateAsync(user, password);
             if (result.Succeeded)
             {
-                return View();
+                userJson = new UserJson { UserId = user.Id , Email = email};
             }
-            return View();
+            return View(userJson);
         }
 
         protected override void Dispose(bool disposing)
