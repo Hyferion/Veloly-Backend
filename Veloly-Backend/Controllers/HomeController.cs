@@ -32,21 +32,5 @@ namespace Veloly_Backend.Controllers
             var json = new Json {JsonString = await handler.RequestPostAsync()};
             return View("Json", json);
         }
-
-        public async Task<ActionResult> LockGetAll()
-        {
-            var handler = new APIHandler
-            {
-                Action = "lock/get/all/",
-                Values = new JavaScriptSerializer().Serialize(new
-                {
-                    username = "jan@werren.com",
-                    password = "Voyager88",
-                    companyDomain = "veloly"
-                })
-            };
-            var json = new Json { JsonString = await handler.RequestPostAsync() };
-            return View("Json",json);
-        }
     }
 }
