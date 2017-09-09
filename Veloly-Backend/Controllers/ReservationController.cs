@@ -31,6 +31,8 @@ namespace Veloly_Backend.Controllers
         public ActionResult Update(int reservationId, string userId, int? bikeId, DateTime? startTime, DateTime? endTime, DateTime? date)
         {
             var model = Db.Reservations.FirstOrDefault(x =>  x.Id == reservationId);
+            var bike = Db.Bikes.FirstOrDefault(x => x.Id == model.Bike.Id);
+            //bike.FreeTime.Remove()
             model.User = userId == null ? model.User : Db.Users.FirstOrDefault(x => x.Id == userId);
             model.Bike = bikeId == null ? model.Bike :  Db.Bikes.FirstOrDefault(x => x.Id == bikeId);
             model.StartTime = startTime == null ? model.StartTime : (DateTime)startTime;
@@ -49,6 +51,7 @@ namespace Veloly_Backend.Controllers
         public ActionResult Schedule(int bikeId)
         {
             var model = Db.Bikes.FirstOrDefault(x => x.Id == bikeId);
+            model.FreeTime.Sort();
             var json = new Json { JsonString = new JavaScriptSerializer().Serialize(model.FreeTime) };
             return View("Json", json);
         }
