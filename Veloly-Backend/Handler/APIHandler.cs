@@ -26,9 +26,9 @@ namespace Veloly_Backend.Handler
             {
                 // ignored
             }
-            var data = new StringContent(_values, Encoding.UTF8, "application/json");
+            var data = new StringContent(Values, Encoding.UTF8, "application/json");
 
-            var response = await Client.PostAsync("https://v1.api.nokepro.com/" + _action, data );
+            var response = await Client.PostAsync("https://v1.api.nokepro.com/" + Action, data );
 
             return await response.Content.ReadAsStringAsync();
         }
