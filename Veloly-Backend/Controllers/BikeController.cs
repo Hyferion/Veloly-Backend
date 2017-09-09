@@ -52,6 +52,7 @@ namespace Veloly_Backend.Controllers
         {
             //var tmodel = db.Bikes.FirstOrDefault(t => t.Id == bikeId);
             var model = db.Bikes.FirstOrDefault(x => x.Id == bikeId);
+            if(model == null) return RedirectToAction("Index", "Home");
             model.UserId = userId == null ? model.UserId : userId;
             model.PhotoUrl = photoUrl == null ? model.PhotoUrl : photoUrl;
             model.Price = price == null ? model.Price : (decimal)price;
@@ -65,9 +66,10 @@ namespace Veloly_Backend.Controllers
 
         }
 
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int? id)
         {
             var bike = db.Bikes.FirstOrDefault(x => x.Id == id);
+            if (bike == null) return RedirectToAction("Index", "Home");
             db.Bikes.Remove(bike);
             db.SaveChanges();
             return View("Json", new Json());

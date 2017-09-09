@@ -22,6 +22,7 @@ namespace Veloly_Backend.Controllers
                 StartTime = startTime,
                 EndTime = endTime,
             };
+            if(model.Bike == null) return RedirectToAction("Index", "Home");
             model.Bike.FreeTime.Add(new Tuple<DateTime, int>(startTime, -1));
             model.Bike.FreeTime.Add(new Tuple<DateTime, int>(endTime, 1));
             Db.Reservations.Add(model);
