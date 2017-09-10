@@ -76,9 +76,9 @@ namespace Veloly_Backend.Controllers
 
         }
 
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int? bikeId)
         {
-            var bike = db.Bikes.FirstOrDefault(x => x.Id == id);
+            var bike = db.Bikes.FirstOrDefault(x => x.Id == bikeId);
             if (bike == null) return RedirectToAction("Index", "Home");
             db.Bikes.Remove(bike);
             db.SaveChanges();

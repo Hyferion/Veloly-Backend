@@ -71,9 +71,12 @@ namespace Veloly_Backend.Controllers
                 };
                 var jObject = JObject.Parse(await handler.RequestPostAsync());
                 string nokeId = string.Empty;
-                if (jObject["user"]["id"] != null)
+                if (jObject != null)
                 {
-                    nokeId = jObject["user"]["id"].Value<string>();
+                    if (!jObject["result"].Value<string>().Equals("failure"))
+                    {
+                        nokeId = jObject["user"]["id"].Value<string>();
+                    }
                 }
                 userJson = new UserJson { UserId = (await UserManager.FindByEmailAsync(email)).Id, Email = email, NokeId = nokeId};
             }
