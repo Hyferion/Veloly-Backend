@@ -77,6 +77,7 @@ namespace Veloly_Backend.Controllers
             var model = bike.FreeTime;
             model.Add(new Tuple<DateTime, int>(bike.StartTime, 1));
             model.Add(new Tuple<DateTime, int>(bike.EndTime, -1));
+            model.Sort();
             var json = new Json { JsonString = new JavaScriptSerializer().Serialize(model) };
             return View("Json", json);
         }
