@@ -28,16 +28,10 @@ namespace Veloly_Backend.Models
             var handler = new APIHandler
             {
                 Action = "group/create/",
-                Values = new JavaScriptSerializer().Serialize(new
-                {
-                    name = "Group" + bike1.Id,
-                    lockIds = new List<string> { "4211" },
-                    userIds = new List<string> { "5804" },
-                    groupType = "offline"
-                })
+                Values = "{'name': 'My Example Group','schedule': [{'startDate': '2017 - 01 - 30T16:00:00Z','endDate': '2017 - 01 - 31T00: 00:00Z','expiration': '3001 - 01 - 01T07: 00:00Z','repeatType': 'weekly','dayOfWeek': 'monday'},{'startDate': '2017 - 01 - 27T16: 00:00Z','endDate': '2017 - 01 - 28T00: 00:00Z','expiration': '3001 - 01 - 01T07: 00:00Z','repeatType': 'weekly','dayOfWeek': 'friday'},{'startDate': '2017 - 01 - 28T16: 00:00Z','endDate': '2017 - 01 - 29T00: 00:00Z','expiration':'3001 - 01 - 01T07: 00:00Z','repeatType': 'weekly','dayOfWeek': 'saturday'}],'lockIds': [123],'userIds': [321],'groupType': 'online'}"
             };
-            var json = new Json { JsonString = Task.Run(async () => { return await handler.RequestPostAsync(); }).Result};
-            var bike2 = new Bike
+            //var json = new Json { JsonString = Task.Run(async () => { return await handler.RequestPostAsync(); }).Result};
+             var bike2 = new Bike
             {
                 Price = 10,
                 LockId = "4211",
@@ -52,12 +46,20 @@ namespace Veloly_Backend.Models
                 Values = new JavaScriptSerializer().Serialize(new
                 {
                     name = "Group" + bike2.Id,
-                    lockIds = new List<string> { "4210" },
+                    schedule = new List<object> { new
+                    {
+                        startDate = "2017-09-09T00:00:00Z",
+                        endDate = "2017-09-10T00:00:00Z",
+                        expiration = "3001-01-01T07:00:00Z",
+                        repeatType = "weekly",
+                        dayOfWeek = "monday"
+                    } },
+                    lockIds = new List<string> { "4211" },
                     userIds = new List<string> { "5804" },
                     groupType = "offline"
                 })
             };
-            json = new Json { JsonString = Task.Run(async () => { return await handler.RequestPostAsync(); }).Result };
+            //json = new Json { JsonString = Task.Run(async () => { return await handler.RequestPostAsync(); }).Result };
             var bike3 = new Bike
             {
                 Price = 10,
@@ -73,12 +75,20 @@ namespace Veloly_Backend.Models
                 Values = new JavaScriptSerializer().Serialize(new
                 {
                     name = "Group" + bike3.Id,
-                    lockIds = new List<string> { "4209" },
+                    schedule = new List<object> { new
+                    {
+                        startDate = "2017-09-09T00:00:00Z",
+                        endDate = "2017-09-10T00:00:00Z",
+                        expiration = "3001-01-01T07:00:00Z",
+                        repeatType = "weekly",
+                        dayOfWeek = "monday"
+                    } },
+                    lockIds = new List<string> { "4211" },
                     userIds = new List<string> { "5804" },
                     groupType = "offline"
                 })
             };
-            json = new Json { JsonString = Task.Run(async () => { return await handler.RequestPostAsync(); }).Result };
+            //json = new Json { JsonString = Task.Run(async () => { return await handler.RequestPostAsync(); }).Result };
 
             base.Seed(context);
         }

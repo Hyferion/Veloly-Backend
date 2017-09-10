@@ -29,21 +29,28 @@ namespace Veloly_Backend.Controllers
         }
         public ActionResult Update(int reservationId, string userId, int? bikeId, DateTime? startTime, DateTime? endTime, DateTime? date)
         {
-            var model = Db.Reservations.FirstOrDefault(x =>  x.Id == reservationId);
+            var model = Db.Reservations.FirstOrDefault(x => x.Id == reservationId);
+            Json json;
+            if (model == null)
+            {
+                json = new Json { JsonString = new JavaScriptSerializer().Serialize(new Reservation()) };
+                return View("Json", json);
+            }
+
             model.User = userId == null ? model.User : Db.Users.FirstOrDefault(x => x.Id == userId);
-            model.Bike = bikeId == null ? model.Bike :  Db.Bikes.FirstOrDefault(x => x.Id == bikeId);
-            model.StartTime = startTime == null ? model.StartTime : (DateTime)startTime;
-            model.EndTime = endTime == null ? model.EndTime : (DateTime)endTime;
+            model.Bike = bikeId == null ? model.Bike : Db.Bikes.FirstOrDefault(x => x.Id == bikeId);
+            model.StartTime = startTime ?? model.StartTime;
+            model.EndTime = endTime ?? model.EndTime;
             Db.SaveChanges();
-            var json = new Json { JsonString = new JavaScriptSerializer().Serialize(model) };
+            json = new Json { JsonString = new JavaScriptSerializer().Serialize(model) };
             return View("Json", json);
         }
         public ActionResult Remove(int reservationId)
         {
             var model = Db.Reservations.FirstOrDefault(x => x.Id == reservationId);
-            Db.Reservations.Remove(model);
+            if (model != null) Db.Reservations.Remove(model);
             Db.SaveChanges();
-            return View("Json", new Reservation { });
+            return View("Json", new Json { JsonString = new JavaScriptSerializer().Serialize(new Reservation()) });
         }
     }
 }

@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Security.Claims;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web;
-using System.Web.Http.Cors;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Veloly_Backend.Handler;
 using Veloly_Backend.JsonModels;
@@ -78,7 +72,7 @@ namespace Veloly_Backend.Controllers
                 var nokeId = jObject["user"]["id"];
                 userJson = new UserJson { UserId = (await UserManager.FindByEmailAsync(email)).Id, Email = email, NokeId = nokeId.Value<string>()};
             }
-            return View(userJson);
+            return View("User",userJson);
         }
 
         public async Task<ActionResult> Register(string email, string password)
@@ -86,7 +80,7 @@ namespace Veloly_Backend.Controllers
             var userJson = new UserJson();
             if (await UserManager.FindByEmailAsync(email) != null)
             {
-                return View(userJson);
+                return View("User",userJson);
             }
             var user = new ApplicationUser { UserName = email, Email = email };
             var result = await UserManager.CreateAsync(user, password);
@@ -102,10 +96,11 @@ namespace Veloly_Backend.Controllers
                         permissions = new List<string> { "appFlag"}
                     })
                 };
+                //To get the Result about the register from the api, change the given model to the view
                 var json = new Json { JsonString = await handler.RequestPostAsync() };
                 userJson = new UserJson { UserId = user.Id, Email = email };
             }
-            return View(userJson);
+            return View("User",userJson);
         }
 
         protected override void Dispose(bool disposing)
