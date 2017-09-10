@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using Veloly_Backend.JsonModels;
 using Veloly_Backend.Models;
 
@@ -23,7 +24,12 @@ namespace Veloly_Backend.Controllers
             DateTime? startTime,
             DateTime? endTime)
         {
-            var model = new Bike()
+            if (price == null && startTime == null && endTime == null)
+            {
+                return View("Json", new Json {JsonString = new JavaScriptSerializer().Serialize(new Bike())});
+            }
+
+            var model = new Bike
             {
                 UserId = userId,
                 Description = description,
@@ -50,18 +56,22 @@ namespace Veloly_Backend.Controllers
             DateTime? endTime,
             string description)
         {
-            //var tmodel = db.Bikes.FirstOrDefault(t => t.Id == bikeId);
+            if (price == null && startTime == null && endTime == null)
+            {
+                return View("Json", new Json { JsonString = new JavaScriptSerializer().Serialize(new Bike()) });
+            }
+
             var model = db.Bikes.FirstOrDefault(x => x.Id == bikeId);
             if (model == null) return RedirectToAction("Index", "Home");
-            model.UserId = userId == null ? model.UserId : userId;
-            model.PhotoUrl = photoUrl == null ? model.PhotoUrl : photoUrl;
-            model.Price = price == null ? model.Price : (decimal)price;
-            model.LockId = lockId == null ? model.LockId : lockId;
-            model.Description = description == null ? model.Description : description;
+            model.UserId = userId ?? model.UserId;
+            model.PhotoUrl = photoUrl ?? model.PhotoUrl;
+            model.Price = price ?? model.Price;
+            model.LockId = lockId ?? model.LockId;
+            model.Description = description ?? model.Description;
             model.StartTime = (DateTime)startTime;
             model.EndTime = (DateTime)endTime;
             db.SaveChanges();
-            var json = new Json { JsonString = new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(model) };
+            var json = new Json { JsonString = new JavaScriptSerializer().Serialize(model) };
             return View("Json", json);
 
         }
