@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -69,8 +70,12 @@ namespace Veloly_Backend.Controllers
                     })
                 };
                 var jObject = JObject.Parse(await handler.RequestPostAsync());
-                var nokeId = jObject["user"]["id"];
-                userJson = new UserJson { UserId = (await UserManager.FindByEmailAsync(email)).Id, Email = email, NokeId = nokeId.Value<string>()};
+                string nokeId = string.Empty;
+                if (jObject["user"]["id"] != null)
+                {
+                    nokeId = jObject["user"]["id"].Value<string>();
+                }
+                userJson = new UserJson { UserId = (await UserManager.FindByEmailAsync(email)).Id, Email = email, NokeId = nokeId};
             }
             return View("User",userJson);
         }
