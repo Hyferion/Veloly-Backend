@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Newtonsoft.Json.Linq;
@@ -46,19 +43,37 @@ namespace Veloly_Backend.Controllers
             return View("Json", json);
         }
 
-        public async Task<ActionResult> AddUser(string UserId = "", string GroupId = "")
+        public async Task<ActionResult> AddUser(string userId, string groupId)
         {
             var handler = new APIHandler
             {
-                Action = "lock/get/all",
+                Action = "group/user/add",
                 Values = new JavaScriptSerializer().Serialize(new
                 {
+                    id = groupId,
+                    userId = userId
                 })
             };
             var json = new Json {JsonString = await handler.RequestPostAsync()};
             return View("Json",json);
         }
 
+        public async Task<ActionResult> RemoveUser(string userId, string groupId)
+        {
+            var handler = new APIHandler
+            {
+                Action = "group/user/remove",
+                Values = new JavaScriptSerializer().Serialize(new
+                {
+                    id = groupId,
+                    userId = userId
+                })
+            };
+            var json = new Json { JsonString = await handler.RequestPostAsync() };
+            return View("Json", json);
+        }
+
+        //Session String need to be set, more information about session strings dedicated to this problem could be found in the mobile documentation
         //public async Task<ActionResult> Unlock(string mac = "C8:25:0E:3C:76:60",string session = " ")
         //{
         //    var handler = new APIHandler

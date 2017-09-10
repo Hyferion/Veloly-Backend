@@ -242,7 +242,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Handler\APIHandler.cs" />
-    <Compile Include="JsonModels\BikeJson.cs" />
     <Compile Include="JsonModels\Json.cs" />
     <Compile Include="JsonModels\UserJson.cs" />
     <Compile Include="Models\ApplicationDbInitializer.cs" />
@@ -290,11 +289,10 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\Json.cshtml" />
+    <Content Include="Views\Account\User.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
