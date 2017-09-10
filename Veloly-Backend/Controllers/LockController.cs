@@ -27,6 +27,30 @@ namespace Veloly_Backend.Controllers
             return View("Json", list);
         }
 
+        public async Task<ActionResult> GetGpsByName(string lockName)
+        {
+            var handler = new APIHandler
+            {
+                Action = "lock/get/all/",
+                Values = new JavaScriptSerializer().Serialize(new
+                {
+                    username = "jan@werren.com",
+                    password = "Voyager88",
+                    companyDomain = "veloly"
+                })
+            };
+            var list = JObject.Parse(await handler.RequestPostAsync())["data"]["locks"].Children();
+            var json = new Json();
+            foreach (var lockObject in list)
+            {
+                if (lockObject["serial"].Value<string>() == lockName)
+                {
+                    json = new Json {JsonString = new JavaScriptSerializer().Serialize(new Lock {Id = lockObject["id"].Value<string>(), Name = lockObject["name"].Value<string>(), Latitude = lockObject["latitude"].Value<string>(), Longitude = lockObject["longitude"].Value<string>() })};
+                }
+            }
+            return View("Json",json);
+        }
+
         public async Task<ActionResult> All()
         {
             var handler = new APIHandler

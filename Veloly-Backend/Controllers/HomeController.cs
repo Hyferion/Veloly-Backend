@@ -21,11 +21,11 @@ namespace Veloly_Backend.Controllers
         {
             var handler = new APIHandler
             {
-                Action = "company/login/",
+                Action = "company/login/",  
                 Values = new JavaScriptSerializer().Serialize(new
                 {
-                    username = username,
-                    password = password,
+                    username = "jan@werren.com",
+                    password = "Voyager88!",
                     companyDomain = "veloly"
                 })
             };
